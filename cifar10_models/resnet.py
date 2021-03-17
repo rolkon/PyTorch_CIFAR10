@@ -241,7 +241,7 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def forward(self, x):
+    def encode(self, x):
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
@@ -254,6 +254,10 @@ class ResNet(nn.Module):
 
         x = self.avgpool(x)
         x = x.reshape(x.size(0), -1)
+        return x
+
+    def forward(self, x):
+        x = self.encode(x)
         x = self.fc(x)
 
         return x
